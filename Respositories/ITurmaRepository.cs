@@ -1,4 +1,5 @@
 ﻿using CursosWebApi.Entities;
+using CursosWebApi.Models;
 
 namespace CursosWebApi.Respositories
 {
@@ -12,5 +13,11 @@ namespace CursosWebApi.Respositories
 
         public Task<List<Aluno>?> ListarAlunosPorTurma(string codigoTurma);
 
+        public Task<List<Turma>> ListarTurmasDoAluno(Aluno aluno);
+
+        public Task<List<Turma>> ListarTurmas();
+
+        public Task RemoverTurma(Turma turma);
+        
     }
 }

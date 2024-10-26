@@ -65,5 +65,42 @@ namespace CursosWebApi.Respositories
             }
 
         }
+
+        public async Task<List<Turma>> ListarTurmas()
+        {
+            try
+            {
+                return await _context.Turmas.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<List<Turma>> ListarTurmasDoAluno(Aluno aluno)
+        {
+            try
+            {
+                return await _context.Turmas.Where(t => t.Alunos.Contains(aluno)).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task RemoverTurma(Turma turma)
+        {
+            try
+            {
+                _context.Remove(turma);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw new Exception("Não foi possível obter a lista de turmas");
+            }
+        }
     }
 }

@@ -56,5 +56,32 @@ namespace CursosWebApi.Respositories
         {
             return await _context.Alunos.ToListAsync();
         }
+
+        public async Task AtualizarAluno(Aluno aluno)
+        {
+            try
+            {
+                _context.Update(aluno);
+                await _context.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task RemoverAluno(Aluno aluno)
+        {
+            try
+            {
+                _context.Alunos.Remove(aluno);
+                await _context.SaveChangesAsync();
+
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

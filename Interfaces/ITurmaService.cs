@@ -9,6 +9,8 @@ namespace CursosWebApi.Interfaces
 
         public Task<TurmaDTO?> BuscarTurmaPorCodigo(string codigo);
 
-        //public Task<List<Aluno>?> ListarAlunosPorTurma(string codigoTurma);
+        public Task<List<TurmaDTO>> ListarTurmas();
+
+        public Task RemoverTurma(string codigoTurma);
     }
 }

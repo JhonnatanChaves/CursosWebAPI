@@ -1,4 +1,5 @@
-﻿using CursosWebApi.Interfaces;
+﻿using CursosWebApi.Entities;
+using CursosWebApi.Interfaces;
 using CursosWebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace CursosWebApi.Controllers
         }
 
         [HttpPost]
+        [Route("cadastrarTurma")]
         public async Task<IActionResult> CadastrarTurma(TurmaDTO turmaDTO)
         {
             try
@@ -31,7 +33,7 @@ namespace CursosWebApi.Controllers
         }
 
         [HttpGet]
-
+        [Route("buscarTurmaPorCodigo")]
         public async Task<IActionResult> BuscarTurmaPorCodigo(string codigo)
         {
             try
@@ -44,5 +46,40 @@ namespace CursosWebApi.Controllers
                 return BadRequest("Turma não encontrada.");
             }
         }
+
+        [HttpGet]
+        [Route("listarTurmas")]
+        public async Task<IActionResult> ListarTurmas()
+        {
+            try
+            {
+                var listaDeTurmas = await _turmaService.ListarTurmas();
+                return Ok(listaDeTurmas);
+
+            }
+            catch (Exception)
+            {
+                return BadRequest("Turma não encontrada.");
+            }
+        }
+
+        [HttpDelete]
+        [Route("removerTurma")]
+        public async Task<IActionResult> RemoverTurma(string codigoTurma)
+        {
+            try
+            {
+                await _turmaService.RemoverTurma(codigoTurma);
+
+                return Ok("Turma excluída");
+
+            }
+            catch (Exception)
+            {
+                throw new Exception("Não foi possível obter a lista de turmas");
+            }
+        }
+
+
     }
 }

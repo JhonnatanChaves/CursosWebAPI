@@ -18,8 +18,9 @@ namespace CursosWebApi.Controllers
             _alunoService = alunoService;
         }
 
-        [HttpPost]        
-        public async Task<IActionResult> CadastrarAlunos(AlunoDTO alunoDTO, string codigoTurma)
+        [HttpPost]
+        [Route("cadastrarAluno")]
+        public async Task<IActionResult> CadastrarAluno(AlunoDTO alunoDTO, string codigoTurma)
         {
             try
             {
@@ -73,6 +74,26 @@ namespace CursosWebApi.Controllers
         }
 
         [HttpGet]
+        [Route("buscarAlunoPorMatricula")]
+        public async Task<IActionResult> BuscarAlunoPorMatricula(string matricula)
+        {
+            try
+            {
+                var alunoDTO = await _alunoService.BuscarAlunoPorMatricula(matricula);
+
+                if(alunoDTO != null) return Ok(alunoDTO);
+
+                return BadRequest("O aluno não encontrado, verifique sua matrícula ");
+
+            }
+            catch (Exception)
+            {
+                return BadRequest("Não foi possível buscar os alunos");
+            }
+        }
+
+        [HttpGet]
+        [Route("listarAlunos")]
         public async Task<IActionResult> BuscarAlunos()
         {
             try
@@ -86,5 +107,37 @@ namespace CursosWebApi.Controllers
                return BadRequest("Não foi possível buscar os alunos");
             }
         }
+
+        [HttpPut]
+        [Route("atualizarAluno")]
+        public async Task<IActionResult> EditarAluno(AlunoDTO alunoDTO)
+        {
+            try
+            {
+                await _alunoService.AtualizarAluno(alunoDTO);
+
+                return Ok("As informações referentes ao aluno foram atualizadas");
+
+            }
+            catch (Exception)
+            {
+                return BadRequest("Não foi possível buscar os alunos");
+            }
+        }
+
+        [HttpDelete]
+        [Route("removerAluno")]
+        public async Task<IActionResult> RemoverAluno(string matricula)
+        {
+            try
+            {
+                await _alunoService.RemoverAluno(matricula);
+                return Ok("Aluno removido");
+            }
+            catch (Exception)
+            {
+                return BadRequest("Não foi possível remover o aluno");
+            }
+        } 
     }
 }

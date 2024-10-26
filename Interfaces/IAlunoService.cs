@@ -10,5 +10,10 @@ namespace CursosWebApi.Interfaces
         public Task<bool> MatricularAluno(string matricula, string codigoTurma);
         public Task<IEnumerable<AlunoDTO>> ListarAlunos();
 
+        public Task<AlunoDTO?> BuscarAlunoPorMatricula(string matricula);
+
+        public Task AtualizarAluno(AlunoDTO alunoDTO);
+
+        public Task RemoverAluno(string matricula);
     }
 }

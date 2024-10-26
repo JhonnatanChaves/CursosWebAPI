@@ -10,6 +10,9 @@ namespace CursosWebApi.Respositories
         public Task<Aluno?> BuscarAlunoPorMatricula(string matricula);
         public Task CadastrarAluno(Aluno aluno);
 
+        public Task AtualizarAluno(Aluno aluno);
+
+        public Task RemoverAluno(Aluno aluno);
 
     }
 }
