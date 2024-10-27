@@ -11,3 +11,5 @@ Para performar a webApi, utilizei algumas das seguintes bibliotecas:
 - AutoMapper
 
 Nesta aplicação, utilizei o padrão repository, porque ele oferece uma abstração para o acesso a dados, permitindo uma separação clara entre a lógica de negócios e a lógica de acesso a dados. Isso facilita a manutenção, a testabilidade e a flexibilidade do código, permitindo a troca de implementações de persistência sem afetar a lógica de negócios. Além disso, este padrão promove a reutilização de código e encapsula a lógica de consulta e manipulação de dados.
+
+Para executar este projeto, preencha corretamente a string de conexão no arquivo appsettings.json.
