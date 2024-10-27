@@ -1,6 +1,6 @@
-﻿using CursosWebApi.Infrastructure;
+﻿using CursosWebApi.Infrastructure.Persistence.Context;
 
-namespace CursosWebApi.Persistence.Repositories
+namespace CursosWebApi.Infrastructure.Persistence.Repositories
 {
     public abstract class BaseRepository
     {

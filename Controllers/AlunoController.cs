@@ -1,6 +1,6 @@
-﻿using CursosWebApi.Entities;
-using CursosWebApi.Interfaces;
-using CursosWebApi.Models;
+﻿using CursosWebApi.Domain.Services;
+using CursosWebApi.Domain.Models;
+using CursosWebApi.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -22,55 +22,38 @@ namespace CursosWebApi.Controllers
         [Route("cadastrarAluno")]
         public async Task<IActionResult> CadastrarAluno(AlunoDTO alunoDTO, string codigoTurma)
         {
-            try
-            {
-                var status = await _alunoService.CadastrarAluno(alunoDTO, codigoTurma);
+            
+            var resposta = await _alunoService.CadastrarAluno(alunoDTO, codigoTurma);
 
-                if(status)
-                    return Ok("Aluno Cadastrado");
-                else 
-                    return BadRequest("Aluno não cadastrado, verifique o CPF do aluno, código da turma e número limite de alunos por turma");
-            }
-            catch (Exception)
-            {
-                return BadRequest("Não foi possível cadastrar o aluno");
-            }
+            if(resposta.Sucesso)
+                return Ok(resposta.Mensagem);
+            else 
+                return BadRequest(resposta.Mensagem);
+         
         }
 
         [HttpPost]
         [Route("matricularAluno")]
-        public async Task<IActionResult> MatricularAlunos(string matricula, string codigoTurma)
-        {
-            try
-            {
-                var status = await _alunoService.MatricularAluno(matricula, codigoTurma);
+        public async Task<IActionResult> MatricularAluno(string matricula, string codigoTurma)
+        {           
+            var resposta = await _alunoService.MatricularAluno(matricula, codigoTurma);
 
-                if (status)
-                    return Ok("Aluno Matriculado");
-                else
-                    return BadRequest("Aluno não matriculado. Verifique a matricula, código e limite de alunos da turma");
-            }
-            catch (Exception)
-            {
-                return BadRequest("Não foi possível matricular o aluno");
-            }
+            if (resposta.Sucesso) return Ok(resposta);
+
+            return BadRequest(resposta.Mensagem);
+
         }
 
         [HttpGet]
         [Route("buscarAlunoPorCpf")]
         public async Task<IActionResult> BuscarAlunoPorCPF(string cpf)
-        {
-            try
-            {
-                var alunoDTO = await _alunoService.BuscarAlunoPorCPF(cpf);
+        {            
+            var resposta = await _alunoService.BuscarAlunoPorCPF(cpf);
 
-                return Ok(alunoDTO);
+            if(resposta.Sucesso) return Ok(resposta);
 
-            }
-            catch (Exception)
-            {
-                return BadRequest("Não foi possível buscar os alunos");
-            }
+            return BadRequest(resposta.Mensagem);
+            
         }
 
         [HttpGet]
@@ -95,17 +78,13 @@ namespace CursosWebApi.Controllers
         [HttpGet]
         [Route("listarAlunos")]
         public async Task<IActionResult> BuscarAlunos()
-        {
-            try
-            {
-                var listaDeAlunos = await _alunoService.ListarAlunos();
-                
-                return Ok(listaDeAlunos);
-                
-            }catch (Exception)
-            {
-               return BadRequest("Não foi possível buscar os alunos");
-            }
+        {           
+            var resposta = await _alunoService.ListarAlunos();
+
+            if(resposta.Sucesso) return Ok(resposta);
+                           
+            return BadRequest(resposta.Mensagem);
+            
         }
 
         [HttpPut]
@@ -114,9 +93,11 @@ namespace CursosWebApi.Controllers
         {
             try
             {
-                await _alunoService.AtualizarAluno(alunoDTO);
+                var resposta =  await _alunoService.AtualizarAluno(alunoDTO);
 
-                return Ok("As informações referentes ao aluno foram atualizadas");
+                if (resposta.Sucesso) return Ok(resposta);
+
+                return BadRequest(resposta.Mensagem);
 
             }
             catch (Exception)
@@ -129,15 +110,12 @@ namespace CursosWebApi.Controllers
         [Route("removerAluno")]
         public async Task<IActionResult> RemoverAluno(string matricula)
         {
-            try
-            {
-                await _alunoService.RemoverAluno(matricula);
-                return Ok("Aluno removido");
-            }
-            catch (Exception)
-            {
-                return BadRequest("Não foi possível remover o aluno");
-            }
+
+            var resposta = await _alunoService.RemoverAluno(matricula);
+
+            if (resposta.Sucesso) return Ok(resposta);
+
+            return BadRequest(resposta.Mensagem);
         } 
     }
 }

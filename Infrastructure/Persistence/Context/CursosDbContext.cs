@@ -1,9 +1,9 @@
-﻿using CursosWebApi.Entities;
+﻿using CursosWebApi.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace CursosWebApi.Infrastructure
+namespace CursosWebApi.Infrastructure.Persistence.Context
 {
-    public class CursosDbContext: DbContext
+    public class CursosDbContext : DbContext
     {
 
         public DbSet<Aluno> Alunos { get; set; }

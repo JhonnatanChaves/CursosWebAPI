@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
-using CursosWebApi.Entities;
-using CursosWebApi.Interfaces;
-using CursosWebApi.Models;
-using CursosWebApi.Respositories;
+using CursosWebApi.Domain.Entities;
+using CursosWebApi.Domain.Services;
+using CursosWebApi.Domain.Models;
+using CursosWebApi.Domain.Respositories;
+using CursosWebApi.Domain.Communication;
 
 namespace CursosWebApi.Services
 {
@@ -17,62 +18,78 @@ namespace CursosWebApi.Services
             _turmaRepository = turmaRepository;
         }
 
-        public async Task CadastrarTurma(TurmaDTO turmaDTO)
+        public async Task<Resposta> CadastrarTurma(TurmaDTO turmaDTO)
         {
             try
             {
                 var turma = _mapper.Map<Turma>(turmaDTO);
                 await _turmaRepository.CadastrarTurma(turma);
-            }catch(Exception ex)
+
+                return new Resposta(true, "Turma Cadastrada.", turma);
+
+            }
+            catch (Exception)
             {
-                throw new Exception(ex.Message);
+                return new Resposta(false, "Não foi possível cadastrar a turma.", null);
             }
         }
 
-        public async Task<TurmaDTO?> BuscarTurmaPorCodigo(string codigo)
+        public async Task<Resposta> BuscarTurmaPorCodigo(string codigo)
         {
             try
             {
                 var turma = await _turmaRepository.BuscarTurmaPorCodigo(codigo);
-            
-                return  _mapper.Map<TurmaDTO>(turma);                                       
 
-            }catch (Exception ex)
+                var turmaDTO = _mapper.Map<TurmaDTO>(turma);
+
+                return new Resposta(true, "Busca efetuada com sucesso.", turmaDTO);
+
+            }
+            catch (Exception)
             {
-                throw new Exception(ex.Message);
+                return new Resposta(false, "Não foi possível obter a turma", null);
             }
         }
 
-        public async Task<List<TurmaDTO>> ListarTurmas()
+        public async Task<Resposta> ListarTurmas()
         {
             try
             {
                 var turmas = await _turmaRepository.ListarTurmas();
 
-                return _mapper.Map<List<TurmaDTO>>(turmas);
+                var listaTurmas = _mapper.Map<List<TurmaDTO>>(turmas);
+
+                if (listaTurmas == null) return new Resposta(true, "lista vazia", null);
+
+                return new Resposta(true, "lista obtida com sucesso", listaTurmas);
 
             }
             catch (Exception)
             {
-                throw new Exception("Não foi possível obter a lista de turmas");
+                return new Resposta(false, "Não foi possível obter a lista", null);
             }
         }
 
-        public async Task RemoverTurma(string codigoTurma)
+        public async Task<Resposta> RemoverTurma(string codigoTurma)
         {
             try
             {
                 var turma = await _turmaRepository.BuscarTurmaPorCodigo(codigoTurma);
 
-                if (turma != null && turma.Alunos.Count() == 0)
+                if (turma == null)
+                    return new Resposta(true, "Turma não encontrada.", turma);
+
+                if (turma.Alunos.Count == 0)
                 {
                     await _turmaRepository.RemoverTurma(turma);
-                }                
-                
+                    return new Resposta(true, "Turma removida com sucesso.", turma);
+                }
+
+                return new Resposta(true, "Remoção negada! Não é possível remover uma turma com alunos matriculados.", turma);
             }
             catch (Exception)
             {
-                throw new Exception("Não foi possível obter a lista de turmas");
+                return new Resposta(false, "Não foi possível remover a turma.", null);
             }
         }
     }

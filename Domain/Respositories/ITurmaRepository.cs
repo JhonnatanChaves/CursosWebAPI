@@ -1,12 +1,12 @@
-﻿using CursosWebApi.Entities;
-using CursosWebApi.Models;
+﻿using CursosWebApi.Domain.Entities;
+using CursosWebApi.Domain.Models;
 
-namespace CursosWebApi.Respositories
+namespace CursosWebApi.Domain.Respositories
 {
     public interface ITurmaRepository
     {
         public Task CadastrarTurma(Turma turma);
-        
+
         public Task<Turma?> BuscarTurmaPorCodigo(string codigo);
 
         public Task AtualizarTurma(Turma turma);
@@ -18,6 +18,6 @@ namespace CursosWebApi.Respositories
         public Task<List<Turma>> ListarTurmas();
 
         public Task RemoverTurma(Turma turma);
-        
+
     }
 }

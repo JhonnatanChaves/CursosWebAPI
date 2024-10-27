@@ -1,6 +1,7 @@
-﻿using CursosWebApi.Entities;
+﻿using CursosWebApi.Domain.Helpers;
+using CursosWebApi.Domain.Entities;
 
-namespace CursosWebApi.Models
+namespace CursosWebApi.Domain.Models
 {
     public class TurmaDTO
     {
@@ -10,7 +11,7 @@ namespace CursosWebApi.Models
 
         public required string CargaHoraria { get; set; }
 
-        public required string Nivel { get; set; }
-        
+        public required ENiveisCurso Nivel { get; set; }
+
     }
 }

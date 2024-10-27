@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using CursosWebApi.Entities;
-using CursosWebApi.Models;
+using CursosWebApi.Domain.Entities;
+using CursosWebApi.Domain.Models;
 
 namespace CursosWebApi.Util
 {

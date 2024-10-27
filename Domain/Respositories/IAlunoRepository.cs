@@ -1,7 +1,7 @@
-﻿using CursosWebApi.Entities;
-using CursosWebApi.Models;
+﻿using CursosWebApi.Domain.Entities;
+using CursosWebApi.Domain.Models;
 
-namespace CursosWebApi.Respositories
+namespace CursosWebApi.Domain.Respositories
 {
     public interface IAlunoRepository
     {

@@ -1,6 +1,7 @@
-﻿using CursosWebApi.Entities;
-using CursosWebApi.Interfaces;
-using CursosWebApi.Models;
+﻿using CursosWebApi.Domain.Communication;
+using CursosWebApi.Domain.Services;
+using CursosWebApi.Domain.Models;
+using CursosWebApi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CursosWebApi.Controllers
@@ -20,64 +21,49 @@ namespace CursosWebApi.Controllers
         [Route("cadastrarTurma")]
         public async Task<IActionResult> CadastrarTurma(TurmaDTO turmaDTO)
         {
-            try
-            {
-                await _turmaService.CadastrarTurma(turmaDTO);
+            var resposta = await _turmaService.CadastrarTurma(turmaDTO);
 
-                return Ok("Turma cadastrada.");
-            }
-            catch (Exception)
-            {
-                return BadRequest("Turma não cadastrada.");
-            }
+            if(resposta.Sucesso)
+                return Ok(resposta.Mensagem);
+
+            return BadRequest(resposta.Mensagem);            
         }
 
         [HttpGet]
         [Route("buscarTurmaPorCodigo")]
         public async Task<IActionResult> BuscarTurmaPorCodigo(string codigo)
         {
-            try
-            {
-                var turmaDTO = await _turmaService.BuscarTurmaPorCodigo(codigo);
-                return Ok(turmaDTO);
+            
+            var resposta = await _turmaService.BuscarTurmaPorCodigo(codigo);
 
-            }catch (Exception)
-            {
-                return BadRequest("Turma não encontrada.");
-            }
+            if(resposta.Sucesso) return Ok(resposta);
+
+            return BadRequest(resposta.Mensagem);
+            
         }
 
         [HttpGet]
         [Route("listarTurmas")]
         public async Task<IActionResult> ListarTurmas()
-        {
-            try
-            {
-                var listaDeTurmas = await _turmaService.ListarTurmas();
-                return Ok(listaDeTurmas);
+        {           
+            var resposta = await _turmaService.ListarTurmas();
+            
+            if (resposta.Sucesso) return Ok(resposta);
 
-            }
-            catch (Exception)
-            {
-                return BadRequest("Turma não encontrada.");
-            }
+            return BadRequest(resposta.Mensagem);
+
         }
 
         [HttpDelete]
         [Route("removerTurma")]
         public async Task<IActionResult> RemoverTurma(string codigoTurma)
         {
-            try
-            {
-                await _turmaService.RemoverTurma(codigoTurma);
+            var resposta = await _turmaService.RemoverTurma(codigoTurma);
 
-                return Ok("Turma excluída");
+            if (resposta.Sucesso) return Ok(resposta);
 
-            }
-            catch (Exception)
-            {
-                throw new Exception("Não foi possível obter a lista de turmas");
-            }
+            return BadRequest(resposta.Mensagem);
+
         }
 
 

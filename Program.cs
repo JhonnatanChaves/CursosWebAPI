@@ -1,6 +1,7 @@
-using CursosWebApi.Infrastructure;
-using CursosWebApi.Interfaces;
-using CursosWebApi.Respositories;
+using CursosWebApi.Domain.Services;
+using CursosWebApi.Domain.Respositories;
+using CursosWebApi.Infrastructure.Persistence.Context;
+using CursosWebApi.Infrastructure.Persistence.Repositories;
 using CursosWebApi.Services;
 using CursosWebApi.Util;
 using Microsoft.EntityFrameworkCore;
